@@ -20,8 +20,7 @@ function createGame() {
         function refresh() {
             gridCells.forEach(element => {
                 const position = element.dataset.position;
-                if(gameBoard[position] !== ".")
-                {
+                if(gameBoard[position] !== ".") {
                     element.innerText = gameBoard[position];
                 }
             });
@@ -62,6 +61,21 @@ function createGame() {
                                 player2Score++;
                                 player2Element.innerText = "Player 2: " + player2Score;
                             }
+
+                            // TOOD:: Could just toggle these elements display on/off
+                            // <div class="play-again"><button>Play Again</button></div>
+                            gbElement.innerText = "";
+                            const playAgain = document.createElement("div");
+                            playAgain.classList.add("play-again");
+                            const playAgainButton = document.createElement("button");
+                            playAgainButton.innerText = "Play Again";
+                            playAgainButton.addEventListener("click", e => {
+                                gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
+                                turnCount = 0;
+                                clear();
+                            });
+                            playAgain.appendChild(playAgainButton);
+                            gbElement.appendChild(playAgain);
                         }
                     }
                 });
@@ -77,11 +91,9 @@ function createGame() {
     function play(position) {
         if(turnCount % 2 === 0) {
             gameBoard[position] = "x";
-            console.log(`Player 1 moves on turn ${turnCount + 1}.`);
         }
         else {
             gameBoard[position] = "o";
-            console.log(`Player 2 moves on turn ${turnCount + 1}.`);
         }
 
         turnCount++;
