@@ -3,25 +3,48 @@ function createGame() {
     let turnCount = 0;
 
     function display() {
-        gridCells = [...document.querySelectorAll(".gameboard > *")];
+        const gbElement = document.querySelector(".gameboard");
+        let gridCells = [];
 
-        gridCells.forEach(element => {
-            const position = element.dataset.position;
-            if(gameBoard[position] !== ".")
-            {
-                element.innerText = gameBoard[position];
+        function refresh() {
+            gridCells.forEach(element => {
+                const position = element.dataset.position;
+                if(gameBoard[position] !== ".")
+                {
+                    element.innerText = gameBoard[position];
+                }
+            });
+        }
+
+        function clear() {
+            gbElement.innerText = "";
+            gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
+            init();
+        }
+
+        function init() {
+            for(let i = 0; i < 9; i++) {
+                const tile = document.createElement("div");
+                tile.classList.add("tile");
+                tile.dataset.position = i;
+                tile.addEventListener("click", e => {
+                    play(tile.dataset.position);
+                    refresh();
+
+                    if(checkWin()) {
+                        clear();
+                    }
+                });
+
+                gbElement.appendChild(tile);
+                gridCells.push(tile);
             }
-        });
+        }
+
+        init();
     }
 
-    function play() {
-        let position = Math.floor(Math.random() * gameBoard.length);
-
-        while(gameBoard[position] !== ".")
-        {
-            position = Math.floor(Math.random() * gameBoard.length);
-        }
-        
+    function play(position) {
         if(turnCount % 2 === 0)
         {
             gameBoard[position] = "x";
@@ -85,23 +108,12 @@ function createGame() {
     }
 
     function run() {
-        for(let i = 0; i < 9; i++) {
-            play();
-        
-            if(checkWin()) {
-                console.log("Winner achieved");
-                display();
-                return;
-            }
-        }
-
-        console.log("No winner");
         display();
     }
 
     return { run };
 }
 
-let game = createGame();
+const game = createGame();
 game.run();
 
