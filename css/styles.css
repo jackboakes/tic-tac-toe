@@ -1,3 +1,14 @@
-h1 {
-    color: cyan;
+.gameboard {
+    width: 600px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.tile {
+    background-color: gray;
+    border: 1px solid black;
+    font-size: 48px;
+    text-align: center;
 }
