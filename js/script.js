@@ -11,6 +11,12 @@ function createGame() {
         const player2Element = document.querySelector("#player2");
         let gridCells = [];
 
+        const resetButton = document.querySelector(".reset");
+        resetButton.addEventListener("click", e => {
+            reset();
+            clear();
+        });
+
         function refresh() {
             gridCells.forEach(element => {
                 const position = element.dataset.position;
@@ -23,9 +29,9 @@ function createGame() {
 
         function clear() {
             gbElement.innerText = "";
-            gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
-            turnCount = 0;
             turnElement.innerText = "x Turn"
+            player1Element.innerText = "Player 1: " + player1Score;
+            player2Element.innerText = "Player 2: " + player2Score;
             init();
         }
 
@@ -35,29 +41,29 @@ function createGame() {
                 tile.classList.add("tile");
                 tile.dataset.position = i;
                 tile.addEventListener("click", e => {
-                    if(gameBoard[tile.dataset.position] === ".") {
-                        play(tile.dataset.position);
-                        if(turnCount % 2) {
-                            turnElement.innerText = "o Turn"
+                    if(!checkWin()) {
+                        if(gameBoard[tile.dataset.position] === ".") {
+                            play(tile.dataset.position);
+                            if(turnCount % 2) {
+                                turnElement.innerText = "o Turn"
+                            }
+                            else {
+                                turnElement.innerText = "x Turn"
+                            }
+                            refresh();
                         }
-                        else {
-                            turnElement.innerText = "x Turn"
-                        }
-                        refresh();
-                        
+
                         if(checkWin()) {
-                        if(turnCount % 2) {
-                            player1Score++;
-                            player1Element.innerText = "Player 1: " + player1Score;
-                        }
-                        else {
-                            player2Score++;
-                            player2Element.innerText = "Player 2: " + player2Score;
-                        }
-                            clear();
+                            if(turnCount % 2) {
+                                player1Score++;
+                                player1Element.innerText = "Player 1: " + player1Score;
+                            }
+                            else {
+                                player2Score++;
+                                player2Element.innerText = "Player 2: " + player2Score;
+                            }
                         }
                     }
-
                 });
 
                 gbElement.appendChild(tile);
@@ -123,6 +129,13 @@ function createGame() {
         }
 
         return false;
+    }
+
+    function reset() {
+        gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
+        turnCount = 0;
+        player1Score = 0;
+        player2Score = 0;
     }
 
     function run() {
