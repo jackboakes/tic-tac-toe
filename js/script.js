@@ -4,6 +4,7 @@ function createGame() {
 
     function display() {
         const gbElement = document.querySelector(".gameboard");
+        const turnElement = document.querySelector(".turn");
         let gridCells = [];
 
         function refresh() {
@@ -19,6 +20,8 @@ function createGame() {
         function clear() {
             gbElement.innerText = "";
             gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
+            turnCount = 0;
+            turnElement.innerText = "x Turn"
             init();
         }
 
@@ -29,8 +32,14 @@ function createGame() {
                 tile.dataset.position = i;
                 tile.addEventListener("click", e => {
                     play(tile.dataset.position);
+                    if(turnCount % 2) {
+                        turnElement.innerText = "o Turn"
+                    }
+                    else {
+                        turnElement.innerText = "x Turn"
+                    }
                     refresh();
-
+                    
                     if(checkWin()) {
                         clear();
                     }
@@ -45,13 +54,11 @@ function createGame() {
     }
 
     function play(position) {
-        if(turnCount % 2 === 0)
-        {
+        if(turnCount % 2 === 0) {
             gameBoard[position] = "x";
             console.log(`Player 1 moves on turn ${turnCount + 1}.`);
         }
-        else
-        {
+        else {
             gameBoard[position] = "o";
             console.log(`Player 2 moves on turn ${turnCount + 1}.`);
         }
@@ -66,8 +73,7 @@ function createGame() {
                 gameBoard[i + 1] !== "." &&
                 gameBoard[i + 2] !== "." &&
                 gameBoard[i] === gameBoard[i + 1] &&
-                gameBoard[i + 1] === gameBoard[i + 2]
-                && gameBoard[i] === gameBoard[i + 2]) {
+                gameBoard[i + 1] === gameBoard[i + 2]) {
                     return true;
             }
         }
@@ -78,8 +84,7 @@ function createGame() {
                 gameBoard[i + 3] !== "." &&
                 gameBoard[i + 6] !== "." &&
                 gameBoard[i] === gameBoard[i + 3] &&
-                gameBoard[i + 3] === gameBoard[i + 6] &&
-                gameBoard[i] === gameBoard[i + 6]) {
+                gameBoard[i + 3] === gameBoard[i + 6]) {
                     return true;
             }
         }
@@ -89,8 +94,7 @@ function createGame() {
             gameBoard[4] !== "." &&
             gameBoard[8] !== "." &&
             gameBoard[0] === gameBoard[4] &&
-            gameBoard[4] === gameBoard[8] &&
-            gameBoard[0] === gameBoard[8]) {
+            gameBoard[4] === gameBoard[8]) {
                 return true;
         }
 
@@ -99,8 +103,7 @@ function createGame() {
             gameBoard[4] !== "." &&
             gameBoard[6] !== "." &&
             gameBoard[2] === gameBoard[4] &&
-            gameBoard[4] === gameBoard[6] &&
-            gameBoard[2] === gameBoard[6]) {
+            gameBoard[4] === gameBoard[6]) {
                 return true;
         }
 
