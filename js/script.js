@@ -1,10 +1,14 @@
 function createGame() {
     let gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
     let turnCount = 0;
+    let player1Score = 0;
+    let player2Score = 0;
 
     function display() {
         const gbElement = document.querySelector(".gameboard");
         const turnElement = document.querySelector(".turn");
+        const player1Element = document.querySelector("#player1");
+        const player2Element = document.querySelector("#player2");
         let gridCells = [];
 
         function refresh() {
@@ -42,6 +46,14 @@ function createGame() {
                         refresh();
                         
                         if(checkWin()) {
+                        if(turnCount % 2) {
+                            player1Score++;
+                            player1Element.innerText = "Player 1: " + player1Score;
+                        }
+                        else {
+                            player2Score++;
+                            player2Element.innerText = "Player 2: " + player2Score;
+                        }
                             clear();
                         }
                     }
