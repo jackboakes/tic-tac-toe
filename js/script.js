@@ -31,18 +31,21 @@ function createGame() {
                 tile.classList.add("tile");
                 tile.dataset.position = i;
                 tile.addEventListener("click", e => {
-                    play(tile.dataset.position);
-                    if(turnCount % 2) {
-                        turnElement.innerText = "o Turn"
+                    if(gameBoard[tile.dataset.position] === ".") {
+                        play(tile.dataset.position);
+                        if(turnCount % 2) {
+                            turnElement.innerText = "o Turn"
+                        }
+                        else {
+                            turnElement.innerText = "x Turn"
+                        }
+                        refresh();
+                        
+                        if(checkWin()) {
+                            clear();
+                        }
                     }
-                    else {
-                        turnElement.innerText = "x Turn"
-                    }
-                    refresh();
-                    
-                    if(checkWin()) {
-                        clear();
-                    }
+
                 });
 
                 gbElement.appendChild(tile);
