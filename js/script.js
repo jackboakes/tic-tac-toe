@@ -40,7 +40,7 @@ function createGame() {
             });
             
             const playAgain = document.querySelector(".play-again");
-            if(checkWin()) {
+            if(checkWin() || checkDraw()) {
                 playAgain.style.display = "flex";
                 gridCells.forEach(element => {
                     element.style.display = "none";
@@ -137,6 +137,10 @@ function createGame() {
         }
 
         return false;
+    }
+
+    function checkDraw() {
+        return turnCount >= 9 && !checkWin();
     }
 
     function reset() {
