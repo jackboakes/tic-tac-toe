@@ -31,32 +31,6 @@ function createGame() {
         const player1Element = document.querySelector("#player1");
         const player2Element = document.querySelector("#player2");
 
-        const resetButton = document.querySelector(".reset");
-        resetButton.addEventListener("click", e => {
-            reset();
-            refresh();
-        });
-
-        const nameForm = document.getElementById("name-form");
-        nameForm.addEventListener("submit", e => {
-            e.preventDefault();
-            const player1NameInput = document.getElementsByName("player1Name");
-            const player2NameInput = document.getElementsByName("player2Name");
-
-            player1Name = player1NameInput[0].value;
-            player1NameInput[0].value = "";
-            player2Name = player2NameInput[0].value;
-            player2NameInput[0].value = "";
-            const nameContainer = document.querySelector(".name-container");
-            nameContainer.style.display = "none";
-
-            gridCells.forEach(element => {
-                element.style.display = "block";
-            });
-
-            refresh();
-        });
-
         function refresh() {
             if(turnCount % 2) {
                 turnElement.innerText = `${player2Name}'s turn`;
