@@ -18,6 +18,7 @@
 }
 
 .tile {
+    display: none;
     background-color: gray;
     border: 1px solid black;
     font-size: 48px;

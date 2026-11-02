@@ -5,13 +5,31 @@ function createGame() {
     let player2Score = 0;
     let player1Name = "Player 1";
     let player2Name = "Player 2";
+    let gridCells = [];
+
+    function showSetup() {
+        document.querySelector(".name-container").style.display = "block";
+        document.querySelector(".play-again").style.display = "none";
+        gridCells.forEach(cell => cell.style.display = "none");
+    }
+
+    function showBoard() {
+        document.querySelector(".name-container").style.display = "none";
+        document.querySelector(".play-again").style.display = "none";
+        gridCells.forEach(cell => cell.style.display = "block");
+    }
+
+    function showGameOver() {
+        document.querySelector(".name-container").style.display = "none";
+        document.querySelector(".play-again").style.display = "flex";
+        gridCells.forEach(cell => cell.style.display = "none");
+    }
 
     function display() {
         const gbElement = document.querySelector(".gameboard");
         const turnElement = document.querySelector(".turn");
         const player1Element = document.querySelector("#player1");
         const player2Element = document.querySelector("#player2");
-        let gridCells = [];
 
         const resetButton = document.querySelector(".reset");
         resetButton.addEventListener("click", e => {
@@ -32,6 +50,10 @@ function createGame() {
             const nameContainer = document.querySelector(".name-container");
             nameContainer.style.display = "none";
 
+            gridCells.forEach(element => {
+                element.style.display = "block";
+            });
+
             refresh();
         });
 
@@ -46,51 +68,58 @@ function createGame() {
             player1Element.innerText = `${player1Name}: ${player1Score}`;
             player2Element.innerText = `${player2Name}: ${player2Score}`;
 
-            gridCells.forEach(element => {
-                const position = element.dataset.position;
-                element.style.display = "block";
-                if(gameBoard[position] !== ".") {
-                    element.innerText = gameBoard[position];
-                }
-                else {
-                    element.innerText = "";
-                }
+            gridCells.forEach(cell => {
+                const value = gameBoard[cell.dataset.position];
+                cell.innerText = value === "." ? "" : value;
             });
-            
-            const playAgain = document.querySelector(".play-again");
-            if(checkWin() || checkDraw()) {
-                playAgain.style.display = "flex";
-                gridCells.forEach(element => {
-                    element.style.display = "none";
-                });
-            }
-            else {
-                playAgain.style.display = "none";
+
+            if (checkWin() || checkDraw()) {
+                showGameOver();
             }
         }
 
         function init() {
-            const playAgainButton = document.querySelector(".play-again button");
-            playAgainButton.addEventListener("click", e => {
-                gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
-                turnCount = 0;
-                const playAgain = document.querySelector(".play-again");
-                playAgain.style.display = "none";
+            document.querySelector(".reset").addEventListener("click", () => {
+                reset();
+                showSetup();
                 refresh();
             });
 
-            for(let i = 0; i < 9; i++) {
+            document.getElementById("name-form").addEventListener("submit", e => {
+                e.preventDefault();
+                const p1 = document.getElementsByName("player1Name")[0];
+                const p2 = document.getElementsByName("player2Name")[0];
+
+                player1Name = p1.value || "Player 1";
+                player2Name = p2.value || "Player 2";
+                p1.value = "";
+                p2.value = "";
+
+                showBoard();
+                refresh();
+            });
+
+            document.querySelector(".play-again button").addEventListener("click", () => {
+                gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
+                turnCount = 0;
+                showBoard();
+                refresh();
+            });
+
+            for (let i = 0; i < 9; i++) {
                 const tile = document.createElement("div");
                 tile.classList.add("tile");
                 tile.dataset.position = i;
-                tile.addEventListener("click", e => {
+                tile.addEventListener("click", () => {
                     play(tile.dataset.position);
                     refresh();
                 });
-                
                 gbElement.appendChild(tile);
                 gridCells.push(tile);
             }
+
+            showSetup();
+            refresh();
         }
 
         init();
@@ -168,8 +197,6 @@ function createGame() {
         player2Score = 0;
         player1Name = "Player 1";
         player2Name = "Player 2";
-        const nameContainer = document.querySelector(".name-container");
-        nameContainer.style.display = "block";
     }
 
     function run() {
