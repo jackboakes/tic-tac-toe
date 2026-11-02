@@ -30,7 +30,7 @@
 .play-again {
     grid-column: 1 / 4;
     grid-row: 1 / 4;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     background-color: gray;

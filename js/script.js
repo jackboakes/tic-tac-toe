@@ -14,72 +14,62 @@ function createGame() {
         const resetButton = document.querySelector(".reset");
         resetButton.addEventListener("click", e => {
             reset();
-            clear();
+            refresh();
         });
 
         function refresh() {
+            if(turnCount % 2) {
+                turnElement.innerText = "o Turn"
+            }
+            else {
+                turnElement.innerText = "x Turn"
+            }
+
+            player1Element.innerText = "Player 1: " + player1Score;
+            player2Element.innerText = "Player 2: " + player2Score;
+
             gridCells.forEach(element => {
                 const position = element.dataset.position;
+                element.style.display = "block";
                 if(gameBoard[position] !== ".") {
                     element.innerText = gameBoard[position];
                 }
+                else {
+                    element.innerText = "";
+                }
             });
-        }
-
-        function clear() {
-            gbElement.innerText = "";
-            turnElement.innerText = "x Turn"
-            player1Element.innerText = "Player 1: " + player1Score;
-            player2Element.innerText = "Player 2: " + player2Score;
-            init();
+            
+            const playAgain = document.querySelector(".play-again");
+            if(checkWin()) {
+                playAgain.style.display = "flex";
+                gridCells.forEach(element => {
+                    element.style.display = "none";
+                });
+            }
+            else {
+                playAgain.style.display = "none";
+            }
         }
 
         function init() {
+            const playAgainButton = document.querySelector(".play-again button");
+            playAgainButton.addEventListener("click", e => {
+                gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
+                turnCount = 0;
+                const playAgain = document.querySelector(".play-again");
+                playAgain.style.display = "none";
+                refresh();
+            });
+
             for(let i = 0; i < 9; i++) {
                 const tile = document.createElement("div");
                 tile.classList.add("tile");
                 tile.dataset.position = i;
                 tile.addEventListener("click", e => {
-                    if(!checkWin()) {
-                        if(gameBoard[tile.dataset.position] === ".") {
-                            play(tile.dataset.position);
-                            if(turnCount % 2) {
-                                turnElement.innerText = "o Turn"
-                            }
-                            else {
-                                turnElement.innerText = "x Turn"
-                            }
-                            refresh();
-                        }
-
-                        if(checkWin()) {
-                            if(turnCount % 2) {
-                                player1Score++;
-                                player1Element.innerText = "Player 1: " + player1Score;
-                            }
-                            else {
-                                player2Score++;
-                                player2Element.innerText = "Player 2: " + player2Score;
-                            }
-
-                            // TOOD:: Could just toggle these elements display on/off
-                            // <div class="play-again"><button>Play Again</button></div>
-                            gbElement.innerText = "";
-                            const playAgain = document.createElement("div");
-                            playAgain.classList.add("play-again");
-                            const playAgainButton = document.createElement("button");
-                            playAgainButton.innerText = "Play Again";
-                            playAgainButton.addEventListener("click", e => {
-                                gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
-                                turnCount = 0;
-                                clear();
-                            });
-                            playAgain.appendChild(playAgainButton);
-                            gbElement.appendChild(playAgain);
-                        }
-                    }
+                    play(tile.dataset.position);
+                    refresh();
                 });
-
+                
                 gbElement.appendChild(tile);
                 gridCells.push(tile);
             }
@@ -89,14 +79,20 @@ function createGame() {
     }
 
     function play(position) {
-        if(turnCount % 2 === 0) {
-            gameBoard[position] = "x";
-        }
-        else {
-            gameBoard[position] = "o";
+        if(!checkWin() && gameBoard[position] === ".") {
+            gameBoard[position] = turnCount % 2 === 0 ? "x" : "o";
+            turnCount++;
+
+            if(checkWin()) {
+                if(turnCount % 2) {
+                    player1Score++;
+                }
+                else {
+                    player2Score++;
+                }
+            }
         }
 
-        turnCount++;
     }
 
     function checkWin() {
