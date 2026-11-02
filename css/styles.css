@@ -1,11 +1,30 @@
+:root {
+    --font: Arial, Helvetica, sans-serif;
+    --green: #9DCE3F;
+    --brown: #835E18;
+    --yellow: #E8E351;
+    --blue: #97B4F0;
+}
+
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
 }
 
+body {
+    display: flex;
+    justify-content: center;
+    font-family: var(--font);
+}
+
 .game-container {
     width: 600px;
+    margin-block: 20px;
+}
+
+h1 {
+    margin-bottom: 5px;
 }
 
 .gameboard {
@@ -29,10 +48,13 @@
     display: flex;
     grid-template-columns: 1fr 1fr;
     justify-content: space-between;
+    font-size: 24px;
+    margin-bottom: 5px;
+    font-weight: 600;
 }
 
-.scores p {
-
+.turn {
+    font-weight: 400;
 }
 
 .play-again {
@@ -45,9 +67,10 @@
     
 }
 
-.play-again button {
-    height: 20%;
-    width: 60%;
+.play-again p {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .name-container {
@@ -87,4 +110,12 @@ button[type="submit"] {
     width: 100%;
     padding: 8px;
     font-size: 16px;
+}
+
+.reset {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    margin-top: 10px;
 }

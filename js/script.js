@@ -19,8 +19,9 @@ function createGame() {
         gridCells.forEach(cell => cell.style.display = "block");
     }
 
-    function showGameOver() {
+    function showGameOver(message) {
         document.querySelector(".name-container").style.display = "none";
+        document.querySelector(".play-again p").innerText = `${message}\nClick to play again`;
         document.querySelector(".play-again").style.display = "flex";
         gridCells.forEach(cell => cell.style.display = "none");
     }
@@ -47,8 +48,12 @@ function createGame() {
                 cell.innerText = value === "." ? "" : value;
             });
 
-            if (checkWin() || checkDraw()) {
-                showGameOver();
+            if (checkWin()) {
+                const winner = turnCount % 2 ? player1Name : player2Name;
+                showGameOver(`${winner} wins!`);
+            }
+            else if (checkDraw()) {
+                showGameOver("It's a draw!");
             }
         }
 
@@ -73,7 +78,7 @@ function createGame() {
                 refresh();
             });
 
-            document.querySelector(".play-again button").addEventListener("click", () => {
+            document.querySelector(".play-again").addEventListener("click", () => {
                 gameBoard = [".", ".", ".", ".", ".", ".", ".", ".", "."];
                 turnCount = 0;
                 showBoard();
