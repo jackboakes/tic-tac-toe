@@ -14,9 +14,22 @@
             <p id="player1">Player 1: 0</p>
             <p id="player2">Player 2: 0</p>
         </div>
-        <p class="turn">x Turn</p>
+        <p class="turn"></p>
         <div class="gameboard">
             <div class="play-again"><button class="play-again-btn">Play Again</button></div>
+            <div class="name-container">
+                <form id="name-form">
+                    <div class="form-row">
+                        <label for="player1Name">Player 1</label>
+                        <input type="text" id="player1Name" name="player1Name" placeholder="Type Player 1 Name" required />
+                    </div>
+                    <div class="form-row">
+                        <label for="player2Name">Player 2</label>
+                        <input type="text" id="player2Name" name="player2Name" placeholder="Type Player 2 Name" required />
+                    </div>
+                    <button type="submit">Play</button>
+                </form>
+            </div>
         </div>
         <button class="reset">Reset</button>
     </div>

@@ -1,3 +1,9 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
 .game-container {
     width: 600px;
 }
@@ -19,12 +25,13 @@
 }
 
 .scores {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
 }
 
 .scores p {
-    text-align: center;
+
 }
 
 .play-again {
@@ -40,4 +47,43 @@
 .play-again button {
     height: 20%;
     width: 60%;
+}
+
+.name-container {
+    grid-column: 1 / 4;
+    grid-row: 1 / 4;
+    width: 100%;
+    height: 100%;
+}
+
+form {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input {
+    font-size: 16px;
+    padding: 8px
+}
+
+::placeholder {
+    text-align: center;
+}
+
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
 }

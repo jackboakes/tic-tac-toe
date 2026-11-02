@@ -3,6 +3,8 @@ function createGame() {
     let turnCount = 0;
     let player1Score = 0;
     let player2Score = 0;
+    let player1Name = "Player 1";
+    let player2Name = "Player 2";
 
     function display() {
         const gbElement = document.querySelector(".gameboard");
@@ -17,16 +19,32 @@ function createGame() {
             refresh();
         });
 
+        const nameForm = document.getElementById("name-form");
+        nameForm.addEventListener("submit", e => {
+            e.preventDefault();
+            const player1NameInput = document.getElementsByName("player1Name");
+            const player2NameInput = document.getElementsByName("player2Name");
+
+            player1Name = player1NameInput[0].value;
+            player1NameInput[0].value = "";
+            player2Name = player2NameInput[0].value;
+            player2NameInput[0].value = "";
+            const nameContainer = document.querySelector(".name-container");
+            nameContainer.style.display = "none";
+
+            refresh();
+        });
+
         function refresh() {
             if(turnCount % 2) {
-                turnElement.innerText = "o Turn"
+                turnElement.innerText = `${player2Name}'s turn`;
             }
             else {
-                turnElement.innerText = "x Turn"
+                turnElement.innerText = `${player1Name}'s turn`;
             }
 
-            player1Element.innerText = "Player 1: " + player1Score;
-            player2Element.innerText = "Player 2: " + player2Score;
+            player1Element.innerText = `${player1Name}: ${player1Score}`;
+            player2Element.innerText = `${player2Name}: ${player2Score}`;
 
             gridCells.forEach(element => {
                 const position = element.dataset.position;
@@ -148,6 +166,10 @@ function createGame() {
         turnCount = 0;
         player1Score = 0;
         player2Score = 0;
+        player1Name = "Player 1";
+        player2Name = "Player 2";
+        const nameContainer = document.querySelector(".name-container");
+        nameContainer.style.display = "block";
     }
 
     function run() {
