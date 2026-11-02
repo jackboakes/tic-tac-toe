@@ -1,7 +1,5 @@
 :root {
     --font: Arial, Helvetica, sans-serif;
-    --green: #9DCE3F;
-    --brown: #835E18;
     --yellow: #E8E351;
     --blue: #97B4F0;
 }
@@ -19,17 +17,18 @@ body {
 }
 
 .game-container {
-    width: 600px;
+    width: max(350px, 40vw);
     margin-block: 20px;
 }
 
 h1 {
     margin-bottom: 5px;
+    font-size: 24px;
 }
 
 .gameboard {
-    width: 600px;
-    height: 600px;
+    width: max(350px, 40vw);
+    aspect-ratio: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -38,9 +37,9 @@ h1 {
 
 .tile {
     display: none;
-    background-color: gray;
+    background-color: var(--blue);
     border: 1px solid black;
-    font-size: 48px;
+    font-size: clamp(5rem, 10vw, 15rem);
     text-align: center;
 }
 
@@ -63,7 +62,7 @@ h1 {
     display: none;
     justify-content: center;
     align-items: center;
-    background-color: gray;
+    background-color: var(--blue);
     
 }
 
@@ -118,4 +117,6 @@ button[type="submit"] {
     padding: 8px;
     font-size: 16px;
     margin-top: 10px;
+    background-color: var(--yellow);
+    border: 1px solid black;
 }
